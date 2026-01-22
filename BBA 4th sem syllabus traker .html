@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBA 4th Semester Syllabus Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            /* Royal Golden Theme */
+            --gold-primary: #D4AF37;
+            --gold-light: #F4E4BA;
+            --gold-dark: #B8960C;
+            --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #F4E4BA 50%, #D4AF37 100%);
+            --white: #FFFFFF;
+            --off-white: #FAF9F6;
+            --cream: #FFFDD0;
+            --dark-text: #2C2C2C;
+            --gray-text: #666666;
+            
+            /* Priority Colors */
+            --high-priority-bg: rgba(220, 53, 69, 0.1);
+            --high-priority-text: #DC3545;
+            --medium-priority-bg: rgba(255, 193, 7, 0.15);
+            --medium-priority-text: #B8860B;
+            --low-priority-bg: rgba(40, 167, 69, 0.1);
+            --low-priority-text: #28A745;
+
+            /* Effects */
+            --shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
+            --shadow-hover: 0 8px 30px rgba(212, 175, 55, 0.3);
+            --radius: 15px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FAF9F6 0%, #FFFDD0 100%);
+            min-height: 100vh;
+            color: var(--dark-text);
+            overflow-x: hidden;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* --- Header --- */
+        .header {
+            background: #1a1a2e;
+            padding: 25px 50px;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--gold-primary);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(212, 175, 55, 0.15);
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 1px solid var(--gold-primary);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .user-info span { color: var(--gold-light); font-weight: 500; }
+
+        /* --- Navigation --- */
+        .nav-tabs {
+            background: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 100px;
+            z-index: 900;
+            overflow-x: auto;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            padding: 0 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 10px 24px;
+            border: 1px solid var(--gold-primary);
+            background: transparent;
+            color: var(--dark-text);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn.active, .nav-btn:hover {
+            background: var(--gold-gradient);
+            color: #000;
+            border-color: transparent;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
+            font-weight: 600;
+        }
+
+        /* --- Main Content --- */
+        .main-container { max-width: 1400px; margin: 30px auto; padding: 0 20px; }
+        .subject-section { display: none; animation: fadeIn 0.6s ease; }
+        .subject-section.active { display: block; }
+
+        /* --- Planner & Tools --- */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .tool-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* --- Dashboard Stats --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-bottom: 4px solid var(--gold-primary);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-card i { font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 15px; }
+        .stat-card h3 { font-size: 2.2rem; font-weight: 700; color: var(--dark-text); }
+        
+        /* --- Charts --- */
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .chart-box {
+            background: var(--white);
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        /* --- Syllabus Items --- */
+        .unit-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            overflow: hidden;
+        }
+
+        .unit-header {
+            background: linear-gradient(to right, #fff, #fdfbf0);
+            padding: 20px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        .unit-card.expanded .unit-content { max-height: 4000px; padding: 20px 30px; border-top: 1px solid var(--gold-primary); }
+        .unit-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
+
+        .topic-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 8px 12px;
+            border-bottom: 1px dashed #eee;
+            gap: 15px;
+            transition: 0.2s;
+        }
+        .topic-item.subtopic { padding-left: 40px; background: rgba(250, 249, 246, 0.5); font-size: 0.95em; }
+        .topic-item:hover { background: #fafafa; }
+        .topic-item.completed { opacity: 0.6; }
+        .topic-item.completed label { text-decoration: line-through; color: #aaa; }
+        .topic-checkbox { width: 18px; height: 18px; accent-color: var(--gold-dark); cursor: pointer; margin-top: 4px; }
+        
+        /* --- Priority Badges --- */
+        .priority-badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; text-transform: uppercase; float: right; margin-left: 10px;}
+        .p-high { background: var(--high-priority-bg); color: var(--high-priority-text); }
+        .p-med { background: var(--medium-priority-bg); color: var(--medium-priority-text); }
+        .p-low { background: var(--low-priority-bg); color: var(--low-priority-text); }
+
+        /* --- Modals --- */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: #fff; padding: 30px; border-radius: 20px; width: 90%; max-width: 800px; border: 3px solid var(--gold-primary); max-height: 90vh; overflow-y: auto; }
+
+        /* --- Buttons --- */
+        .btn-gold { background: var(--gold-gradient); border: none; padding: 10px 25px; border-radius: 30px; font-weight: 600; cursor: pointer; color: #000; }
+        .fab-btn { position: fixed; bottom: 30px; right: 30px; background: var(--gold-gradient); padding: 15px 30px; border-radius: 50px; font-weight: 700; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.5); cursor: pointer; z-index: 1000; border: none; }
+        
+        .score-display {
+            font-size: 3rem; 
+            font-weight: 700; 
+            background: var(--gold-gradient); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            .charts-row { grid-template-columns: 1fr; }
+            .topic-item.subtopic { padding-left: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Welcome Modal -->
+    <div class="modal" id="welcomeModal">
+        <div class="modal-content" style="text-align: center; max-width: 500px;">
+            <h2 style="font-family: 'Playfair Display'; color: var(--gold-dark); margin-bottom: 10px;">Welcome Scholar</h2>
+            <div style="margin: 20px 0;">
+                <input type="text" id="usernameInput" placeholder="Your Name" style="padding: 10px; width: 100%; border: 2px solid var(--gold-primary); border-radius: 20px; text-align: center;">
+            </div>
+            <button class="btn-gold" onclick="saveUser()">Enter Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
+    <div class="modal" id="reportModal">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; border-bottom: 2px solid var(--gold-primary); padding-bottom: 10px; margin-bottom: 20px;">
+                <h2 style="font-family: 'Playfair Display';">Analysis & Strategy</h2>
+                <button onclick="document.getElementById('reportModal').classList.remove('active')" style="background:none; border:none; font-size: 1.5rem; cursor:pointer;">&times;</button>
+            </div>
+            <div id="reportContent"></div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-gold" onclick="window.print()">Print Report</button>
+            </div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1>BBA 4th Sem</h1>
+                <p>Advanced Syllabus Tracker</p>
+            </div>
+            <div class="user-info" onclick="document.getElementById('welcomeModal').classList.add('active')">
+                <i class="fas fa-user-graduate" style="color: var(--gold-dark);"></i>
+                <span id="displayUsername">Guest</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-tabs">
+        <div class="nav-container">
+            <button class="nav-btn active" onclick="switchTab('overview')"><i class="fas fa-chart-pie"></i> Overview</button>
+            <button class="nav-btn" onclick="switchTab('bba411')">Mgmt A/c</button>
+            <button class="nav-btn" onclick="switchTab('bba412')">Laws</button>
+            <button class="nav-btn" onclick="switchTab('bba413')">Finance</button>
+            <button class="nav-btn" onclick="switchTab('bba414')">Marketing</button>
+            <button class="nav-btn" onclick="switchTab('bba415')">Skills</button>
+            <button class="nav-btn" onclick="switchTab('bst401')">Stats</button>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        
+        <!-- OVERVIEW SECTION -->
+        <section id="overview" class="subject-section active">
+            
+            <!-- Tools Section -->
+            <div class="tools-grid">
+                <!-- Exam Planner -->
+                <div class="tool-card">
+                    <h3 style="font-family: 'Playfair Display'; margin-bottom: 15px;"><i class="fas fa-calendar-alt" style="color: var(--gold-dark)"></i> Exam Planner</h3>
+                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                        <input type="date" id="examDate" onchange="calculatePlan()" style="padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                        <button class="btn-gold" style="padding: 8px 15px; font-size: 0.8rem;" onclick="calculatePlan()">Update Plan</button>
+                    </div>
+                    <div id="planResult" style="font-size: 0.9rem; color: var(--gray-text);">Set exam date to see daily targets.</div>
+                </div>
+
+                <!-- Projected Score -->
+                <div class="tool-card" style="text-align: center;">
+                    <h3 style="font-family: 'Playfair Display';"><i class="fas fa-trophy" style="color: var(--gold-dark)"></i> Readiness Score</h3>
+                    <div id="projectedScore" class="score-display">0/100</div>
+                    <p style="font-size: 0.8rem;">Based on High Priority Completion</p>
+                </div>
+
+                <!-- Streak -->
+                <div class="tool-card" style="text-align: center;">
+                    <h3 style="font-family: 'Playfair Display';"><i class="fas fa-fire" style="color: #dc3545)"></i> Study Streak</h3>
+                    <div style="font-size: 2rem; font-weight: 700;" id="streakCount">0 Days</div>
+                    <button class="btn-gold" onclick="addStreak()" style="margin-top: 5px; font-size: 0.8rem;">I Studied Today</button>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <h3 id="totalTopics">0</h3>
+                    <p>Total Topics</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="completedTopics">0</h3>
+                    <p>Completed</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="progressPercent">0%</h3>
+                    <p>Overall Progress</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="topicsLeft">0</h3>
+                    <p>Topics Remaining</p>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-box">
+                    <h3>Subject Mastery</h3>
+                    <canvas id="subjectChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>Priority Breakdown</h3>
+                    <canvas id="priorityChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Syllabus Container -->
+        <div id="syllabusContainer"></div>
+
+    </main>
+
+    <button class="fab-btn" onclick="generateReport()">
+        <i class="fas fa-magic"></i> Analysis Report
+    </button>
+
+    <script>
+        // --- EXPANDED DATA STRUCTURE ---
+        // 's' = subtopic (boolean), 'p' = priority (high/med/low)
+        const syllabus = {
+            'bba411': {
+                code: 'BBA-411', name: 'Management Accounting',
+                units: [
+                    {
+                        title: 'Unit 1: Introduction',
+                        topics: [
+                            { t: 'Meaning of management accounting', p: 'med' },
+                            { t: 'Objectives of management accounting', p: 'med' },
+                            { t: 'Nature of management accounting', p: 'low' },
+                            { t: 'Scope of management accounting', p: 'low' },
+                            { t: 'Difference between different forms of accounting', p: 'high' },
+                            { t: 'Cost accounting', p: 'med', s: true },
+                            { t: 'Financial accounting', p: 'med', s: true },
+                            { t: 'Management accounting', p: 'med', s: true },
+                            { t: 'Cost control', p: 'med' },
+                            { t: 'Cost reduction', p: 'med' },
+                            { t: 'Cost management', p: 'low' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 2: Cost Concept',
+                        topics: [
+                            { t: 'Concept of marginal cost', p: 'med' },
+                            { t: 'Concept of marginal costing', p: 'med' },
+                            { t: 'Absorption versus Variable Costing', p: 'high' },
+                            { t: 'Distinctive features', p: 'med', s: true },
+                            { t: 'Income determination', p: 'med', s: true },
+                            { t: 'Cost-volume-profit analysis', p: 'high' },
+                            { t: 'Break-even analysis', p: 'high' },
+                            { t: 'Using mathematical approaches', p: 'high', s: true },
+                            { t: 'Using graphical approaches', p: 'med', s: true },
+                            { t: 'Profit-volume ratio', p: 'high' },
+                            { t: 'Angle of incidence', p: 'med' },
+                            { t: 'Margin of safety', p: 'high' },
+                            { t: 'Key factor', p: 'med' },
+                            { t: 'Determination of cost indifference point', p: 'low' },
+                            { t: 'Cash break-even point', p: 'low' },
+                            { t: 'Composite break-even point', p: 'low' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 3: Decision Making',
+                        topics: [
+                            { t: 'Concept of Relevant Costs', p: 'high' },
+                            { t: 'Concept of Relevant Benefits', p: 'med' },
+                            { t: 'Various short-term decision making situations', p: 'high' },
+                            { t: 'Profitable product mix', p: 'high', s: true },
+                            { t: 'Acceptance or Rejection of special/export offers', p: 'high', s: true },
+                            { t: 'Make or buy', p: 'high', s: true },
+                            { t: 'Addition or Elimination of a product line', p: 'med', s: true },
+                            { t: 'Sell or process further', p: 'med', s: true },
+                            { t: 'Operate or shut down', p: 'med', s: true },
+                            { t: 'Pricing Decisions', p: 'med' },
+                            { t: 'Major factors influencing pricing decisions', p: 'med', s: true },
+                            { t: 'Various methods of pricing', p: 'med', s: true }
+                        ]
+                    },
+                    {
+                        title: 'Unit 4: Budgeting',
+                        topics: [
+                            { t: 'Concept of budget, budgeting, budgetary control', p: 'med' },
+                            { t: 'Objectives, Merits, Limitations', p: 'med' },
+                            { t: 'Budget Administration', p: 'low' },
+                            { t: 'Functional Budgets', p: 'high' },
+                            { t: 'Fixed budgeting', p: 'high' },
+                            { t: 'Flexible budgeting', p: 'high' },
+                            { t: 'Zero base budgeting', p: 'high' },
+                            { t: 'Programme & Performance budgeting', p: 'med' },
+                            { t: 'Standard Costing and Variance Analysis', p: 'high' },
+                            { t: 'Meaning, Advantages, Limitations', p: 'med', s: true },
+                            { t: 'Variance Analysis', p: 'high' },
+                            { t: 'Material variances', p: 'high', s: true },
+                            { t: 'Labour variances', p: 'high', s: true },
+                            { t: 'Overheads variances', p: 'med', s: true },
+                            { t: 'Sales variances', p: 'med', s: true },
+                            { t: 'Disposition of variances & Control ratios', p: 'low' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 5: Responsibility Accounting',
+                        topics: [
+                            { t: 'Concept & Significance', p: 'med' },
+                            { t: 'Different Responsibility Centers', p: 'high' },
+                            { t: 'Divisional Performance Measurement', p: 'med' },
+                            { t: 'Financial measures', p: 'med', s: true },
+                            { t: 'Non-Financial measures', p: 'med', s: true },
+                            { t: 'Transfer pricing', p: 'med' }
+                        ]
+                    }
+                ]
+            },
+            'bba412': {
+                code: 'BBA-412', name: 'Industrial Laws',
+                units: [
+                    {
+                        title: 'Unit 1: Concept of IR',
+                        topics: [
+                            { t: 'Nature & Objectives of IR', p: 'med' },
+                            { t: 'Factors affecting IR', p: 'low' },
+                            { t: 'Evolution of IR in India', p: 'low' },
+                            { t: 'Role of State, Trade Union, Employers’ Organization', p: 'med' },
+                            { t: 'HRM and IR', p: 'low' },
+                            { t: 'Role of ILO', p: 'low' },
+                            { t: 'GIG Economy & Ramifications', p: 'med' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 2: Trade Union',
+                        topics: [
+                            { t: 'Origin & Growth of Trade Union', p: 'low' },
+                            { t: 'Unions after Independence & Liberalization', p: 'low' },
+                            { t: 'Factors Affecting Growth', p: 'med' },
+                            { t: 'Multiplicity & Recognition of Trade Unions', p: 'high' },
+                            { t: 'Major Provisions of Trade Union Act 1926', p: 'high' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 3: Collective Bargaining',
+                        topics: [
+                            { t: 'Meaning, Nature, Types, Process', p: 'high' },
+                            { t: 'Importance & Pre-requisites', p: 'med' },
+                            { t: 'Status in India', p: 'med' },
+                            { t: 'Role of Trade Unions', p: 'med' },
+                            { t: 'Workers’ Participation in Management', p: 'high' },
+                            { t: 'Works Committees & Joint management councils', p: 'high', s: true },
+                            { t: 'Participative Management & Co-ownership', p: 'med' },
+                            { t: 'Productive Bargaining & Gain Sharing', p: 'low' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 4: Discipline',
+                        topics: [
+                            { t: 'Causes of indiscipline', p: 'low' },
+                            { t: 'Misconduct & Domestic enquiries', p: 'high' },
+                            { t: 'Principle of Natural Justice', p: 'high' },
+                            { t: 'Labour turnover & Absenteeism', p: 'med' },
+                            { t: 'Grievance', p: 'high' },
+                            { t: 'Redressal machinery in India', p: 'high', s: true },
+                            { t: 'Handling procedure', p: 'med', s: true },
+                            { t: 'Industrial Employment (Standing orders) Act 1946', p: 'med' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 5: The Industrial Disputes Act',
+                        topics: [
+                            { t: 'Definitions: Industry, workman, Industrial Dispute', p: 'high' },
+                            { t: 'Authorities: Procedure, Powers, Duties', p: 'high' },
+                            { t: 'Strikes & Lock outs', p: 'high' },
+                            { t: 'Lay-off & Retrenchment', p: 'high' },
+                            { t: 'Closure provisions', p: 'med' },
+                            { t: 'The Factories Act, 1948', p: 'high' },
+                            { t: 'Health & Safety provisions', p: 'high', s: true },
+                            { t: 'Welfare facilities', p: 'high', s: true },
+                            { t: 'Working hours & Young persons', p: 'high', s: true },
+                            { t: 'Annual Leave with wages', p: 'med', s: true }
+                        ]
+                    }
+                ]
+            },
+            'bba413': {
+                code: 'BBA-413', name: 'Indian Financial System',
+                units: [
+                    {
+                        title: 'Unit 1: Financial System',
+                        topics: [
+                            { t: 'Formal vs Informal systems', p: 'med' },
+                            { t: 'Functions of financial system', p: 'med' },
+                            { t: 'Nature & Role of institutions/markets', p: 'med' },
+                            { t: 'Financial system and the economy', p: 'low' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 2: Money Market',
+                        topics: [
+                            { t: 'Emerging Structure of Indian Money Market', p: 'med' },
+                            { t: 'Instruments of Money Market', p: 'high' },
+                            { t: 'Money Mutual Funds (Overview & RBI Guidelines)', p: 'med' },
+                            { t: 'Commercial Banks Role (Industrial & Working Capital)', p: 'high' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 3: Capital Market',
+                        topics: [
+                            { t: 'Concept, Structure, Functions', p: 'high' },
+                            { t: 'Primary Market', p: 'high' },
+                            { t: 'Instruments of Issue', p: 'high', s: true },
+                            { t: 'Methods of Flotation', p: 'high', s: true },
+                            { t: 'Secondary Market', p: 'high' },
+                            { t: 'Market Players, Trading, Settlement', p: 'high', s: true }
+                        ]
+                    },
+                    {
+                        title: 'Unit 4: Institutional Structure',
+                        topics: [
+                            { t: 'Development Banks', p: 'med' },
+                            { t: 'Investment Institutions (UTI, Mutual Funds)', p: 'med' },
+                            { t: 'Life Insurance Corporation of India', p: 'low' },
+                            { t: 'SEBI', p: 'high' },
+                            { t: 'Scope, Functions, Objectives', p: 'high', s: true }
+                        ]
+                    },
+                    {
+                        title: 'Unit 5: Financial Products',
+                        topics: [
+                            { t: 'Leasing & Hire Purchase', p: 'med' },
+                            { t: 'Factoring & Forfeiting', p: 'med' },
+                            { t: 'CREDIT RATING', p: 'med' },
+                            { t: 'Meaning, Functions, Importance', p: 'med', s: true },
+                            { t: 'DERIVATIVES: Basic Introduction', p: 'high' }
+                        ]
+                    }
+                ]
+            },
+            'bba414': {
+                code: 'BBA-414', name: 'Marketing Management',
+                units: [
+                    {
+                        title: 'Unit 1: Introduction',
+                        topics: [
+                            { t: 'Nature & Scope of Marketing', p: 'med' },
+                            { t: 'Marketing Philosophies (Production to Holistic)', p: 'med' },
+                            { t: 'Core concepts (Need, Want, Demand, Value)', p: 'med' },
+                            { t: 'Marketing Mix', p: 'high' },
+                            { t: 'STP: Segmentation, Targeting, Positioning', p: 'high' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 2: Product & Pricing',
+                        topics: [
+                            { t: 'Product Decisions (Line, Mix)', p: 'high' },
+                            { t: 'Product Life Cycle (PLC)', p: 'high' },
+                            { t: 'Strategic implications & strategies', p: 'high', s: true },
+                            { t: 'New Product Development Process', p: 'high' },
+                            { t: 'Pricing Decisions & Tactics', p: 'high' },
+                            { t: 'Factors, Policies, Strategies', p: 'high', s: true },
+                            { t: 'Types, Discounts, Rebates', p: 'med', s: true }
+                        ]
+                    },
+                    {
+                        title: 'Unit 3: Distribution & Promotion',
+                        topics: [
+                            { t: 'Distribution Channels (Nature, Functions, Types)', p: 'med' },
+                            { t: 'Intermediaries & Channel Management', p: 'med' },
+                            { t: 'Retailing & Wholesaling', p: 'low' },
+                            { t: 'Promotion Tools & Tactics', p: 'high' },
+                            { t: 'Communication process', p: 'med' },
+                            { t: 'Promotion Mix', p: 'high' },
+                            { t: 'Advertising, Personal Selling, Sales promotion', p: 'high', s: true },
+                            { t: 'Publicity, Public Relations', p: 'med', s: true }
+                        ]
+                    },
+                    {
+                        title: 'Unit 4: Research & Value',
+                        topics: [
+                            { t: 'Marketing Research (Meaning, Scope)', p: 'med' },
+                            { t: 'Research Process & Approaches', p: 'med' },
+                            { t: 'Creating Value', p: 'med' },
+                            { t: 'Brand (Role, Scope, Value based branding)', p: 'high' },
+                            { t: 'Packaging, Labeling, Warranties', p: 'low' },
+                            { t: 'Service Marketing Value', p: 'med' },
+                            { t: 'Value Approaches (Occidental vs Oriental)', p: 'low' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 5: Recent Trends',
+                        topics: [
+                            { t: 'Intl, Social Media, Green, Cyber Marketing', p: 'med' },
+                            { t: 'Relationship & Socially responsible marketing', p: 'med' },
+                            { t: 'Legal, Ethical, Social constraints', p: 'med' },
+                            { t: 'Buzz (Viral) Marketing', p: 'low' },
+                            { t: 'Future of Marketing', p: 'low' }
+                        ]
+                    }
+                ]
+            },
+            'bba415': {
+                code: 'BBA-415', name: 'Employability Skills',
+                units: [
+                    { title: 'Unit 1: Intro', topics: [{t:'Employability skills importance', p:'low'}, {t:'Personality dev & career', p:'low'}, {t:'Strengths & Goals', p:'med'}] },
+                    { title: 'Unit 2: Communication', topics: [{t:'Verbal & Written skills', p:'high'}, {t:'Active listening', p:'high'}, {t:'Relationships & Conflict', p:'high'}] },
+                    { title: 'Unit 3: Time Mgmt', topics: [{t:'Efficient time management', p:'high'}, {t:'Prioritizing & Deadlines', p:'high'}, {t:'Work-life balance', p:'med'}] },
+                    { title: 'Unit 4: Critical Thinking', topics: [{t:'Decision making skills', p:'med'}, {t:'Problem solving', p:'med'}, {t:'Creative solutions', p:'med'}] },
+                    { title: 'Unit 5: Leadership', topics: [{t:'Styles & Principles', p:'high'}, {t:'Teamwork collaboration', p:'high'}, {t:'Adaptability', p:'med'}] }
+                ]
+            },
+            'bst401': {
+                code: 'BST-401', name: 'Business Statistics',
+                units: [
+                    {
+                        title: 'Unit 1: Descriptive Stats',
+                        topics: [
+                            { t: 'Measures of Central Tendency', p: 'high' },
+                            { t: 'Mean (Arithmetic, Geometric, Harmonic)', p: 'high', s: true },
+                            { t: 'Positional Averages', p: 'high' },
+                            { t: 'Mode, Median, Quartiles, Deciles, Percentiles', p: 'high', s: true },
+                            { t: 'Measures of Dispersion', p: 'high' },
+                            { t: 'Range, QD, Mean Dev, SD', p: 'high', s: true },
+                            { t: 'Moments', p: 'low' },
+                            { t: 'Skewness (Karl Pearson & Bowley)', p: 'med' },
+                            { t: 'Kurtosis', p: 'low' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 2: Probability',
+                        topics: [
+                            { t: 'Theory & Approaches', p: 'med' },
+                            { t: 'Probability Theorems (Add/Mult)', p: 'high' },
+                            { t: 'Conditional probability & Bayes Theorem', p: 'high' },
+                            { t: 'Expectation & Variance', p: 'high' },
+                            { t: 'Distributions', p: 'high' },
+                            { t: 'Binomial, Poisson', p: 'high', s: true },
+                            { t: 'Normal (Properties & Computation)', p: 'high', s: true }
+                        ]
+                    },
+                    {
+                        title: 'Unit 3: Correlation & Regression',
+                        topics: [
+                            { t: 'Correlation Analysis', p: 'high' },
+                            { t: 'Pearson coeff (Computation & Properties)', p: 'high', s: true },
+                            { t: 'Rank correlation', p: 'med', s: true },
+                            { t: 'Regression Analysis', p: 'high' },
+                            { t: 'Least squares lines & equations', p: 'high', s: true },
+                            { t: 'Coefficients & Standard Error', p: 'high', s: true }
+                        ]
+                    },
+                    {
+                        title: 'Unit 4: Index Numbers',
+                        topics: [
+                            { t: 'Meaning, Uses, Construction', p: 'med' },
+                            { t: 'Fixed/Chain base, Univariate/Composite', p: 'med', s: true },
+                            { t: 'Methods (Aggregatives, Avg of relatives)', p: 'high', s: true },
+                            { t: 'Tests of adequacy, Base shifting, Splicing', p: 'low' },
+                            { t: 'Consumer Price Indices', p: 'med' }
+                        ]
+                    },
+                    {
+                        title: 'Unit 5: Time Series',
+                        topics: [
+                            { t: 'Components & Models', p: 'med' },
+                            { t: 'Trend analysis (Least squares)', p: 'high' },
+                            { t: 'Linear, Parabola, Exponential', p: 'high', s: true },
+                            { t: 'Shifting Origin & Conversion', p: 'med' },
+                            { t: 'Moving averages', p: 'med' },
+                            { t: 'Seasonal variations (Indices calculation)', p: 'med' }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // --- INIT ---
+        window.onload = function() {
+            renderSyllabus();
+            loadUserData();
+            updateStats();
+        };
+
+        // --- RENDER FUNCTIONS ---
+        function renderSyllabus() {
+            const container = document.getElementById('syllabusContainer');
+            
+            Object.keys(syllabus).forEach(key => {
+                const sub = syllabus[key];
+                const section = document.createElement('section');
+                section.id = key;
+                section.className = 'subject-section';
+                
+                let unitsHtml = '';
+                sub.units.forEach((unit, uIndex) => {
+                    let topicsHtml = '';
+                    unit.topics.forEach((topic, tIndex) => {
+                        const uniqueId = `${key}_u${uIndex}_t${tIndex}`;
+                        const badgeClass = topic.p === 'high' ? 'p-high' : (topic.p === 'med' ? 'p-med' : 'p-low');
+                        const badgeText = topic.p === 'high' ? 'High Priority' : (topic.p === 'med' ? 'Medium' : 'Low');
+                        const subClass = topic.s ? 'subtopic' : '';
+                        
+                        topicsHtml += `
+                            <div class="topic-item ${subClass}" id="row_${uniqueId}">
+                                <input type="checkbox" class="topic-checkbox" id="${uniqueId}" onchange="toggleTopic('${uniqueId}')" data-p="${topic.p}" data-sub="${key}">
+                                <label for="${uniqueId}" style="flex:1; cursor:pointer;">
+                                    ${topic.t}
+                                    ${!topic.s ? `<span class="priority-badge ${badgeClass}">${badgeText}</span>` : ''}
+                                </label>
+                            </div>
+                        `;
+                    });
+
+                    unitsHtml += `
+                        <div class="unit-card">
+                            <div class="unit-header" onclick="toggleUnit(this)">
+                                <h3><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 10px;"></i> ${unit.title}</h3>
+                                <span class="priority-badge" style="background:var(--off-white); border:none; color: #666; float:none;">${unit.topics.length} Topics</span>
+                            </div>
+                            <div class="unit-content">
+                                ${topicsHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                section.innerHTML = `
+                    <div class="subject-hero">
+                        <div>
+                            <h2>${sub.code}</h2>
+                            <p style="font-size: 1.2rem; opacity: 0.9;">${sub.name}</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <h3 id="score_${key}" style="font-size: 2.5rem; color: var(--gold-primary);">0%</h3>
+                            <p>Completed</p>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 20px; text-align:right;">
+                        <button onclick="toggleHideCompleted(this)" class="btn-gold" style="font-size:0.8rem; background:#eee;">Toggle Hide Completed</button>
+                    </div>
+                    ${unitsHtml}
+                `;
+                container.appendChild(section);
+            });
+        }
+
+        // --- INTERACTION ---
+        function toggleUnit(header) {
+            header.parentElement.classList.toggle('expanded');
+            const icon = header.querySelector('.fa-chevron-right');
+            icon.style.transform = header.parentElement.classList.contains('expanded') ? 'rotate(90deg)' : 'rotate(0deg)';
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.subject-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        function toggleTopic(id) {
+            const checkbox = document.getElementById(id);
+            const row = document.getElementById('row_' + id);
+            
+            if(checkbox.checked) {
+                row.classList.add('completed');
+                localStorage.setItem(id, 'true');
+            } else {
+                row.classList.remove('completed');
+                localStorage.removeItem(id);
+            }
+            updateStats();
+        }
+
+        function toggleHideCompleted(btn) {
+            const section = btn.closest('.subject-section');
+            const completedRows = section.querySelectorAll('.topic-item.completed');
+            const isHidden = btn.innerText.includes('Show');
+            
+            completedRows.forEach(row => {
+                row.style.display = isHidden ? 'flex' : 'none';
+            });
+            btn.innerText = isHidden ? 'Hide Completed' : 'Show Completed';
+        }
+
+        function saveUser() {
+            const name = document.getElementById('usernameInput').value;
+            if(name) {
+                localStorage.setItem('username', name);
+                document.getElementById('displayUsername').innerText = name;
+                document.getElementById('welcomeModal').classList.remove('active');
+            }
+        }
+
+        function loadUserData() {
+            const name = localStorage.getItem('username');
+            if(name) document.getElementById('displayUsername').innerText = name;
+            else document.getElementById('welcomeModal').classList.add('active');
+
+            // Load Checkboxes
+            document.querySelectorAll('.topic-checkbox').forEach(box => {
+                if(localStorage.getItem(box.id) === 'true') {
+                    box.checked = true;
+                    document.getElementById('row_' + box.id).classList.add('completed');
+                }
+            });
+
+            // Load Date & Streak
+            const savedDate = localStorage.getItem('examDate');
+            if(savedDate) {
+                document.getElementById('examDate').value = savedDate;
+                calculatePlan();
+            }
+            
+            const streak = localStorage.getItem('streak') || 0;
+            document.getElementById('streakCount').innerText = streak + " Days";
+        }
+
+        function addStreak() {
+            let streak = parseInt(localStorage.getItem('streak') || 0);
+            const lastLog = localStorage.getItem('lastStreakDate');
+            const today = new Date().toDateString();
+
+            if(lastLog !== today) {
+                streak++;
+                localStorage.setItem('streak', streak);
+                localStorage.setItem('lastStreakDate', today);
+                document.getElementById('streakCount').innerText = streak + " Days";
+                alert("Great job! Streak updated.");
+            } else {
+                alert("You already logged your study for today!");
+            }
+        }
+
+        // --- ANALYSIS LOGIC ---
+        function calculatePlan() {
+            const dateInput = document.getElementById('examDate').value;
+            if(!dateInput) return;
+            
+            localStorage.setItem('examDate', dateInput);
+            const examDate = new Date(dateInput);
+            const today = new Date();
+            const daysLeft = Math.ceil((examDate - today) / (1000 * 60 * 60 * 24));
+            
+            const totalTopics = document.querySelectorAll('.topic-checkbox').length;
+            const completed = document.querySelectorAll('.topic-checkbox:checked').length;
+            const remaining = totalTopics - completed;
+
+            const resultDiv = document.getElementById('planResult');
+            
+            if(daysLeft <= 0) {
+                resultDiv.innerHTML = "<span style='color:red'>Exam date has passed or is today! Panic mode!</span>";
+            } else {
+                const perDay = Math.ceil(remaining / daysLeft);
+                resultDiv.innerHTML = `You have <strong>${daysLeft} days</strong> left. <br>Target: <strong>${perDay} topics/day</strong> to finish.`;
+            }
+        }
+
+        function calculateProjectedScore() {
+            // Logic: High priority = 3 pts, Med = 2 pts, Low = 1 pt
+            let totalPossible = 0;
+            let currentScore = 0;
+
+            document.querySelectorAll('.topic-checkbox').forEach(box => {
+                const p = box.dataset.p;
+                const weight = p === 'high' ? 3 : (p === 'med' ? 2 : 1);
+                totalPossible += weight;
+                if(box.checked) currentScore += weight;
+            });
+
+            const readiness = Math.round((currentScore / totalPossible) * 100);
+            document.getElementById('projectedScore').innerText = readiness + "/100";
+        }
+
+        // --- STATS UPDATE ---
+        let subjectChartInstance = null;
+        let priorityChartInstance = null;
+
+        function updateStats() {
+            const allBoxes = document.querySelectorAll('.topic-checkbox');
+            const total = allBoxes.length;
+            const completed = document.querySelectorAll('.topic-checkbox:checked').length;
+            const remaining = total - completed;
+            const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+            
+            document.getElementById('totalTopics').innerText = total;
+            document.getElementById('completedTopics').innerText = completed;
+            document.getElementById('topicsLeft').innerText = remaining;
+            document.getElementById('progressPercent').innerText = percent + "%";
+
+            // Update Tools
+            calculatePlan();
+            calculateProjectedScore();
+
+            // Subject Stats
+            const subLabels = [];
+            const subData = [];
+            Object.keys(syllabus).forEach(key => {
+                const subBoxes = document.querySelectorAll(`.topic-checkbox[data-sub="${key}"]`);
+                const subChecked = document.querySelectorAll(`.topic-checkbox[data-sub="${key}"]:checked`);
+                const subPercent = Math.round((subChecked.length / subBoxes.length) * 100);
+                document.getElementById(`score_${key}`).innerText = subPercent + "%";
+                subLabels.push(syllabus[key].code);
+                subData.push(subPercent);
+            });
+
+            // Priority Stats
+            const priorities = ['high', 'med', 'low'];
+            const pData = priorities.map(p => document.querySelectorAll(`.topic-checkbox[data-p="${p}"]:checked`).length);
+            const pRemaining = priorities.map(p => document.querySelectorAll(`.topic-checkbox[data-p="${p}"]:not(:checked)`).length);
+
+            updateCharts(subLabels, subData, pData, pRemaining);
+        }
+
+        function updateCharts(sLabels, sData, pDone, pLeft) {
+            // Bar Chart
+            const ctx1 = document.getElementById('subjectChart').getContext('2d');
+            if(subjectChartInstance) subjectChartInstance.destroy();
+            subjectChartInstance = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: sLabels,
+                    datasets: [{
+                        label: 'Completion %',
+                        data: sData,
+                        backgroundColor: '#D4AF37',
+                        borderRadius: 5
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true, max: 100 } }, responsive: true }
+            });
+
+            // Doughnut
+            const ctx2 = document.getElementById('priorityChart').getContext('2d');
+            if(priorityChartInstance) priorityChartInstance.destroy();
+            priorityChartInstance = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['High Done', 'Med Done', 'Low Done', 'Pending'],
+                    datasets: [{
+                        data: [pDone[0], pDone[1], pDone[2], (pLeft[0]+pLeft[1]+pLeft[2])],
+                        backgroundColor: ['#DC3545', '#B8860B', '#28A745', '#eee']
+                    }]
+                },
+                options: { responsive: true, cutout: '70%' }
+            });
+        }
+
+        function generateReport() {
+            const highRem = document.querySelectorAll('.topic-checkbox[data-p="high"]:not(:checked)').length;
+            const percent = parseInt(document.getElementById('progressPercent').innerText);
+            const readiness = document.getElementById('projectedScore').innerText;
+
+            const reportHTML = `
+                <div class="analysis-box">
+                    <h3 style="color:var(--gold-dark)">Performance Analysis</h3>
+                    <div class="analysis-item"><span>Readiness Score</span> <strong>${readiness}</strong></div>
+                    <div class="analysis-item"><span>Overall Syllabus</span> <strong>${percent}%</strong></div>
+                    <div class="analysis-item"><span style="color:red">Critical Topics Pending</span> <strong>${highRem}</strong></div>
+                </div>
+                <h4 style="margin-top:20px;">AI Strategy Suggestion:</h4>
+                <ul style="margin-left:20px; margin-top:10px; line-height:1.6">
+                    <li><strong>Immediate Focus:</strong> You have ${highRem} high-priority topics left. Finishing these will boost your readiness score fastest.</li>
+                    <li><strong>Review:</strong> Check BBA-411 Unit 2 & 4 again (highest weightage).</li>
+                    <li><strong>Pace:</strong> See the Exam Planner tool to ensure you aren't falling behind daily targets.</li>
+                </ul>
+            `;
+            document.getElementById('reportContent').innerHTML = reportHTML;
+            document.getElementById('reportModal').classList.add('active');
+        }
+    </script>
+</body>
+</html>
